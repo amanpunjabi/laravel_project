@@ -1,0 +1,17 @@
+{
+    "fields": [{
+            "name": "attribute_id",
+            "type": "number"
+        },
+	{
+            "name": "value",
+            "type": "string"
+        }
+    ],
+
+    "validations": [{
+            "field": "name",
+            "rules": "required"
+        }
+    ]
+}

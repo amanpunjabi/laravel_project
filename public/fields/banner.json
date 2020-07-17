@@ -1,0 +1,23 @@
+{
+    "fields": [{
+            "name": "title",
+            "type": "string"
+        },
+        {
+            "name": "content",
+            "type": "text"
+        },
+        {
+            "name": "image",
+            "type": "file"
+        },
+        {
+            "name": "status",
+            "type": "enum",
+            "options": {
+                "1": "active",
+                "0": "inactive"
+            }
+        }
+    ]
+}

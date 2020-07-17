@@ -1,0 +1,63 @@
+{
+    "fields": [{
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "code",
+            "type": "string"
+        },
+        {
+            "name": "brand_id",
+            "type": "select",
+            "options": {
+                "1": "superadmin",
+                "2": "admin",
+                "3": "customer"
+            }
+        },
+        {
+            "name": "price",
+            "type": "string"
+        },
+        {
+            "name": "special_price",
+            "type": "string"
+        },
+        {
+            "name": "description",
+            "type": "text"
+        },
+        {
+            "name": "status",
+            "type": "select",
+            "options": {
+                "active": "Active",
+                "inactive": "Inactive"
+            }
+        }
+    ],
+    "foreign_keys": [{
+        "column": "brand_id",
+        "references": "id",
+        "on": "brands"
+    }],
+
+    "validations": [{
+            "field": "name",
+            "rules": "required"
+        },
+        {
+            "field": "code",
+            "rules": "required"
+        },
+        {
+            "field": "price",
+            "rules": "required|numeric"
+        },
+        {
+            "field": "description",
+            "rules": "required"
+        }
+    ]
+}

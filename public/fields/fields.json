@@ -1,0 +1,60 @@
+{
+    "fields": [{
+            "name": "firstname",
+            "type": "string"
+        },
+        {
+            "name": "lastname",
+            "type": "string"
+        },
+        {
+            "name": "email",
+            "type": "email"
+        },
+        {
+            "name": "password",
+            "type": "password"
+        },
+        {
+            "name": "confirm_password",
+            "type": "password"
+        },
+        {
+            "name": "status",
+            "type": "radio"
+        },
+        {
+            "name": "roles",
+            "type": "select",
+            "options": {
+                "superadmin": "superadmin",
+                "admin": "admin",
+                "customer": "customer"
+            }
+        }
+    ],
+    "foreign_keys": [{
+        "column": "user_id",
+        "references": "id",
+        "on": "users",
+        "onDelete": "cascade"
+    }],
+
+    "validations": [{
+            "field": "firstname",
+            "rules": "required"
+        },
+        {
+            "field": "lastname",
+            "rules": "required"
+        },
+        {
+            "field": "email",
+            "rules": "required|email"
+        },
+        {
+            "field": "password",
+            "rules": "required"
+        }
+    ]
+}

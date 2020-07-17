@@ -1,0 +1,6 @@
+client side as well server side validations in all the forms.
+
+jquery validation using ajax in attribute values.
+
+
+put boostrap alert for success and error.

@@ -1,0 +1,22 @@
+{
+    "fields": [{
+            "name": "category_name",
+            "type": "string"
+        },
+        {
+            "name": "parent_id",
+            "type": "select",
+            "options": {
+                "2": "superadmin",
+                "3": "admin",
+                "4": "customer"
+            }
+        }
+    ],
+
+    "validations": [{
+            "field": "category_name",
+            "rules": "required"
+        }
+    ]
+}

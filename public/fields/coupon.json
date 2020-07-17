@@ -1,0 +1,36 @@
+{
+    "fields": [{
+            "name": "code",
+            "type": "string"
+        },
+        {
+            "name": "type",
+            "type": "select",
+            "options": {
+                "1": "fixed",
+                "2": "percent"
+            }
+        },
+        {
+            "name": "value",
+            "type": "decimal"
+        },
+        {
+            "name": "expire_on",
+            "type": "datetime"
+        }
+    ],
+    "validations": [{
+            "field": "code",
+            "rules": "required"
+        },
+        {
+            "field": "type",
+            "rules": "required"
+        },
+        {
+            "field": "value",
+            "rules": "required|numeric"
+        }
+    ]
+}
