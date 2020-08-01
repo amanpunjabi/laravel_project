@@ -1,6 +1,46 @@
 client side as well server side validations in all the forms.
 
-jquery validation using ajax in attribute values.
 
 
-put boostrap alert for success and error.
+ 
+
+
+report management
+
+
+
+report management
+
+show total number of register user
+export user by register date range
+
+
+
+contact page reply
+coupon reports and coupon used
+sales reports
+quantity management for non-variable product
+category featured option(done)
+
+cart item quantity change form
+
+
+SELECT MIN(date(created_at))as startdate,MAX(date(created_at)) as enddate, count(*) as number_of_orders,sum(grand_total) as grand_total,SUM(tax) as tax,SUM(item_count) as num_of_products FROM orders GROUP BY month(created_at)
+
+
+
+30 july,2020
+
+Admin Panel
+1-contact reply
+2-admin profile
+
+
+Front End
+1-cart + and -  form(done)
+2-single product quantity management
+
+Extra
+configuration setting (done)
+
+logo and site name in email templates

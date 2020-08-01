@@ -9,37 +9,64 @@ use App\Category;
 use App\Brand;
 Use Alert;
 use Cart;
+use App\ProductVariation;
 
 
 class CartController extends Controller
 {
     public function shop()
     {
-        
+        // return view('welcome');
   
-        $featured_products =  Product::paginate(6);
-        $recommended_products =  Product::get()->where('recommended',true);
+        $featured_products =  Product::whereHas('variation')->paginate(8);
+        // whereHas('variation')->
+        // dd($featured_products); 
+        $recommended_products =  Product::whereHas('variation')->get()->where('recommended',true);
         return view('frontend.index',compact('featured_products','recommended_products'));
     }
 
     public function cart()  {
         $cartCollection = Cart::content();
-
+        $tax = config('cart.tax')/100;
+        // dd($tax);
+        if($code = session()->get('coupon'))
+        {
+            checkIfCouponApplied($code['code']);   
+        }
+        $discount = session()->get('coupon')['discount'] ?? 0;
+        $newSubTotal = Cart::subtotal(2,'.','')-$discount;
+        $newTax = $newSubTotal*$tax;
+        $newTotal = $newSubTotal * (1 + $tax);
+        
+ 
         // dd($cartCollection); 
-        return view('frontend.cart')->with(['cartCollection' => $cartCollection]);;
+        return view('frontend.cart',compact(['discount','newSubTotal','newTax','newTotal','cartCollection']));
     }
 
-    public function add(Request$request){
+    public function add(Request $request){
+        // if(isset($request->variation_id)) {
+        //     $variation = ProductVariation::find($request->variation_id);
+        //     if($variation->quantity < $request->quantity) {
 
+        //         return redirect()->back()->withErrors(array('quantity'=>"Quantity Not Available"));   
+        //     }
+        //     // dd($variation->quantity);
+        // }
+        // dd($request->all());
+        $this->validate($request, [
+          'attribute_id' => 'required', 
+         ],['attribute_id.required'=>"please select attribute"]);
+        // dd($request->all());
         Cart::add(array(
         'id'=>$request->id,
         'name'=>  $request->name,
         'price'=>$request->price,
-         'qty' => $request->quantity,
+         'qty' => 1,
              
            
         'options'=>array(
                 'image' => $request->img,
+                'variation_id' =>$request->variation_id,
                 // 'slug' => $request->slug
             )
         ));
@@ -56,4 +83,24 @@ class CartController extends Controller
          
     }
 
+    public function update(Request $request) {
+        $rowId = $request->rowId;
+        $cart = Cart::get($rowId);
+        $quantity = $cart->qty;
+        if($request->type == "minus") {
+            Cart::update($rowId,$quantity-1);
+            return redirect()->back()->with('success','quantity updated');
+        }
+        else {
+
+            if(ProductVariation::find($cart->options['variation_id'])->quantity < $quantity+1) {
+                return redirect()->back()->with('info','quantity cannot be added');
+            }
+            else {
+                Cart::update($rowId,$quantity+1);
+                return redirect()->back()->with('success','quantity updated');
+            }
+        }
+        // dd($request->all());
+    }
 }

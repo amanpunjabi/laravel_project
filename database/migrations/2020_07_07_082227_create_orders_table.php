@@ -20,6 +20,10 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->enum('status', ['pending', 'processing', 'completed', 'decline'])->default('pending');
+            $table->string('coupon')->nullable();
+            $table->decimal('subtotal', 20, 6);
+            $table->decimal('discount', 20, 6);
+            $table->decimal('tax', 20, 6);
             $table->decimal('grand_total', 20, 6);
             $table->unsignedInteger('item_count');
 

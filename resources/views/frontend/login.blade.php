@@ -4,7 +4,46 @@
 <script>window.location = "/";</script>
 @endif
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0&appId=597669324496756&autoLogAppEvents=1" nonce="ocmxW0Oh"></script>
+@push('css')
+<style type="text/css">
+	.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: rgba(0,0,0,0.2);
+}
 
+.btn-google {
+    color: #fff;
+    background-color: #CF3E3A;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.btn-social {
+    position: relative;
+    padding-left: 44px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-social:hover {
+    color: #eee;
+}
+
+.btn-social :first-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    padding: 7px;
+    font-size: 1.6em;
+    text-align: center;
+    border-right: 1px solid rgba(0,0,0,0.2);
+}
+</style>
+@endpush
 <section id="form"><!--form-->
 		<div class="container">
 			<div class="row">
@@ -84,8 +123,14 @@
 				<div class="col-sm-3">
 				<div class="signup-form">	
 				<h2>Social Login!</h2>
-				{{--  <a href="{{url('/redirect')}}" class="btn btn-info m-2">Login with Facebook</a> --}}
-				 <div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+                <div>
+                     
+    				  <a href="{{url('/redirect')}}" class="btn btn-lg btn-social btn-facebook"> <i class="fa fa-facebook "></i> Facebook
+       				  </a> 
+                      <a href="{{url('/google/redirect')}}" class="btn btn-lg btn-social btn-google"> <i class="fa fa-google"></i> Google
+                      </a>
+    				 
+                </div>
 				</div>
 				</div>
 			</div>

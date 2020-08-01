@@ -14,7 +14,7 @@ class UpdateOrderItemTable extends Migration
     public function up()
     {
        Schema::table('order_items', function (Blueprint $table) {
-            $table->unsignedBigInteger('variation_id')->after('product_id');
+            $table->unsignedBigInteger('variation_id')->after('product_id')->nullable();
             $table->foreign('variation_id')->references('id')->on('product_variations')->onDelete('cascade');
         });
     }

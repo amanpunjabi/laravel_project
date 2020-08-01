@@ -13,6 +13,13 @@
 	    		<div class="col-sm-8">
 	    			<div class="contact-form">
 	    				<h2 class="title text-center">Get In Touch</h2>
+	    				@if ($errors->any())
+                            <ul class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        @endif 
 	    				@if (Session::has('message'))
 	    				<div class="status alert alert-success alert-dismissible">  
 	    				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 					
@@ -22,17 +29,17 @@
 				    	<form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{ route('contact.store')}}">
 				    		@csrf
 				            <div class="form-group col-md-6">
-				                <input type="text" name="name" class="form-control" required="required" placeholder="Name">
+				                <input type="text" name="name" class="form-control" required="required" placeholder="Name" value="{{ old('name') }}">
 				                
 				            </div>
 				            <div class="form-group col-md-6">
-				                <input type="email" name="email" class="form-control" required="required" placeholder="Email">
+				                <input type="email" name="email" class="form-control" required="required" placeholder="Email" value="{{ old('email') }}">
 				            </div>
 				            <div class="form-group col-md-12">
-				                <input type="text" name="subject" class="form-control" required="required" placeholder="Subject">
+				                <input type="text" name="subject" class="form-control" required="required" placeholder="Subject" value="{{ old('subject') }}">
 				            </div>
 				            <div class="form-group col-md-12">
-				                <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="Your Message Here"></textarea>
+				                <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="Your Message Here">{{ old('message') }}</textarea>
 				            </div>                        
 				            <div class="form-group col-md-12">
 				                <input type="submit" name="submit" class="btn btn-primary pull-right" value="Submit">

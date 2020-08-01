@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" sizes="180x180" href="{{asset('frontend/android-chrome-192x192.png')}}">
     <title>Home | E-Shopper</title>
    {{--  <link href='{{ asset("frontend/css/bootstrap.min.css") }}' rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -20,6 +21,7 @@
 	<link href='{{ asset("frontend/css/main.css") }}' rel="stylesheet">
 	<link href='{{ asset("frontend/css/responsive.css") }}' rel="stylesheet">
 	<link href='{{ asset("frontend/css/custom.css") }}' rel="stylesheet">
+	
 	 <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
@@ -39,17 +41,26 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href='{{ asset("frontend/images/ico/apple-touch-icon-114-precomposed.png")}}'>
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href='{{ asset("frontend/images/ico/apple-touch-icon-72-precomposed.png")}}'>
     <link rel="apple-touch-icon-precomposed" href='{{ asset("frontend/images/ico/apple-touch-icon-57-precomposed.png")}}'>
-  
+    <style type="text/css">
+    	.swal2-popup{
+    		width: 100%!important;
+    font-size: 14px!important;
+    	}
+    </style>
+   @stack('css')
 </head><!--/head-->
 
 <body>
 	 @if (Session::has('success'))
-        <?php Alert::success(session('success')); ?>
+        <?php Alert::toast(session('success'),'success'); ?>
    @endif
    @if (Session::has('info'))
-        <?php Alert::info(session('info')); ?>
+        <?php Alert::toast(session('info'),'info'); ?>
    @endif
 	
+   @if (Session::has('warning'))
+        <?php Alert::toast(session('warning'),'warning'); ?>
+   @endif
 		<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -57,19 +68,18 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i>&nbsp;{{ getConfig('phone') }}</a></li>
+								<li><a href="#">&nbsp;<i class="fa fa-envelope"></i> {{ getConfig('email') }}</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="{{ getConfig('facebook')  }}"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="{{ getConfig('twitter')  }}"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="{{ getConfig('linkedin')  }}"><i class="fa fa-linkedin"></i></a></li>
+								 
 							</ul>
 						</div>
 					</div>
@@ -82,9 +92,9 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html"><img src='{{ asset("frontend/images/home/logo.png")}}' alt="" /></a>
+							<a href="{{route('homepage')}}"><img src='{{ asset("frontend/images/home/logo.png")}}' alt="" /></a>
 						</div>
-						<div class="btn-group pull-right">
+						{{-- <div class="btn-group pull-right">
 							<div class="btn-group">
 								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
 									USA
@@ -106,15 +116,17 @@
 									<li><a href="#">Pound</a></li>
 								</ul>
 							</div>
-						</div>
+						</div> --}}
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="{{ route('profile') }}"><i class="fa fa-user"></i> Profile </a></li>
 								<li><a href="{{ route('wishlist') }}"><i class="fa fa-star"></i> Wishlist <span class="label label-info">{{ wishlistcount() }} </span></a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="/checkout-address"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-cart"></i> Cart  <span class="label label-info">  {{ \Cart::count()}}<span></a></li>
+								<li><a href="/my-orders"> 
+								<i class="fa fa-list"></i>  My Orders</a></li>
 								<li>
 									@if(auth()->check())
 									<a class="dropdown-item" href="{{ route('logout') }}"
@@ -153,27 +165,43 @@
 								<li><a href='{{ route("homepage") }}' class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+                                    <li><a  href="{{ route('category.product')}}" >Products</a></li>
+										 
+										<li><a href="checkout-address">Checkout</a></li> 
+										<li><a href="cart">Cart</a></li> 
+										<li>@if(auth()->check())
+									<a class="dropdown-item" href="{{ route('logout') }}"
+             						onclick="event.preventDefault();
+                           			document.getElementById('logout-form').submit();">
+                          			 <i class="nav-icon fas fa-sign-out-alt"></i>
+              						{{ __('Logout') }}
+              						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
+          							</a>
+          							@else
+									<a href="{{ route('login') }}"><i class="fa fa-lock"></i> Login</a>
+								@endif</li> 
                                     </ul>
                                 </li> 
-								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+								{{-- <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="blog.html">Blog List</a></li>
 										<li><a href="blog-single.html">Blog Single</a></li>
                                     </ul>
-                                </li> 
-								<li><a href="404.html">404</a></li>
+                                </li>  --}}
+								{{-- <li><a href="404.html">404</a></li> --}}
 								<li><a href="{{ route('contact')}}">Contact</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+						<div class="pull-right">
+						<form action="{{ route('search.product') }}" method="post">	
+						@csrf			
+							<input type="text" placeholder="Search Products" name="search_query" value="{{$search??'' }}" />
+							<input type="submit" class="  btn-info" name="submit" value="search" />
+						</form>
 						</div>
 					</div>
 				</div>
@@ -359,7 +387,8 @@
 	<script src='{{asset("frontend/js/price-range.js")}}'></script>
     <script src='{{asset("frontend/js/jquery.prettyPhoto.js")}}'></script>
     <script src='{{asset("frontend/js/main.js") }}'></script>
-      @include('sweetalert::alert')
+      {{-- @include('sweetalert::alert') --}}
+      @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
     @stack('js')
 </body>
 </html>

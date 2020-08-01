@@ -3,10 +3,11 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+						<?php $banners = getBanners(); ?>
 						<ol class="carousel-indicators">
-							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-							<li data-target="#slider-carousel" data-slide-to="1"></li>
-							<li data-target="#slider-carousel" data-slide-to="2"></li>
+							@foreach($banners as $banner)
+							 <li data-target="#slider-carousel" data-slide-to="{{ $loop->index }}" class="{{($loop->first)?'active':''}}"></li>
+							@endforeach
 						</ol>
 						
 						
@@ -14,7 +15,7 @@
 						<div class="carousel-inner">
 							<?php $i=0; /*echo "<pre>"; */?>
 						 {{-- {{ getBanners() 	}} --}}
-						 @foreach(getBanners() as $banner)
+						 @foreach($banners as $banner)
 						 {{-- {{ $banner }} --}}
 							<div class="item {{ ($i==0)?'active':'' }}">
 								<div class="col-sm-6">

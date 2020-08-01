@@ -10,8 +10,10 @@
 </div>
 <div class="form-group {{ $errors->has('image') ? 'has-error' : ''}}">
     {!! Form::label('image', 'Image', ['class' => 'control-label']) !!}
-    {!! Form::file('image', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    
+    {!! Form::file('image',null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
     <br>
+
     @if($formMode == 'edit')
     <img src="{{ asset('storage/'.$banner->image) }}" height="100px" width="100px">
     @endif

@@ -40,8 +40,8 @@
 
                      {{  Form::label($value['key_name'],$value['title'],['class'=>'control-label col-sm-2']) }}
                       
-                      {{ Form::text($value['key_name'],$value['value'] ?? '', ['class' => 'form-control col-sm-8', 'placeholder' => 'firstname']) }}
-                      
+                      {{ Form::text($value['key_name'],$value['value'] ?? '', ['class' => 'form-control col-sm-8', 'placeholder' =>  $value["title"] ]) }}
+                    
                       </div>
                     @endforeach
 

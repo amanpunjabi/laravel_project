@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
     {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
-    {!! Form::text('name', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+    {!! Form::text('name', $productattribute->name??null,['class' => 'form-control', 'required' => 'required']) !!}
     {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
 </div>
 

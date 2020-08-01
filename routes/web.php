@@ -62,10 +62,15 @@ Route::namespace('Admin')->prefix('admin')->middleware('auth')->name('admin.')->
 
 	Route::resource('contact','ContactUsController');
 	Route::resource('orders','OrderController');
+	Route::get('/printOrder/{id}','OrderController@printOrder')->name('orders.print');
 	Route::resource('cms','CmsController');
+	Route::get('report/','ReportController@salesReport')->name('report.sales');
+	Route::get('report/user','ReportController@userReport')->name('report.user');
+	Route::get('report/coupon','ReportController@couponReport')->name('report.coupon');
 	Route::resource('email','EmailTemplatesController'); 
 
 	Route::delete('/remove-variant/{id}','ProductsController@remove_variant')->name('remove-variant');
+	Route::get('/user-orders/{id}','ReportController@userOrders')->name('user.orders');
 
 });
 
@@ -83,11 +88,17 @@ Route::post('/update', 'CartController@update')->name('cart.update');
 Route::post('/remove', 'CartController@remove')->name('cart.remove');
 Route::post('/clear', 'CartController@clear')->name('cart.clear');
 Route::get('/product-detail/{id}/{value?}','FrontendController@product_detail')->name('product_detail');
+//category-wise product list
+Route::get('product-list/{id?}','FrontendController@ProductByCategory')->name('category.product');
+Route::post('product-list/','FrontendController@ProductBySearch')->name('search.product');
+Route::get('category/content/{id}','FrontendController@categoryContent')->name('categoryContent');
 });
 
 
 
-Route::namespace('Frontend')->middleware('auth')->group(function(){
+
+
+    Route::namespace('Frontend')->middleware('auth')->group(function(){
 	
 	Route::get('/wishlist/{id}','FrontendController@add_wishlist')->name('add_wishlist');
 
@@ -96,24 +107,43 @@ Route::namespace('Frontend')->middleware('auth')->group(function(){
 	Route::get('/wishlist/delete/{id}','FrontendController@remove_wishlist')->name('remove_wishlist');
 	Route::get('/profile','FrontendController@profile')->name('profile');
 	Route::post('/profile','FrontendController@profile_update')->name('profile.update');
-	Route::get('/checkout','CheckoutController@index');
-	Route::post('/checkout/order', 'CheckoutController@placeOrder')->name('checkout.place.order');
+	Route::post('/review-payment','CheckoutController@ship_address')->name('shipping.address');
+	Route::get('/checkout-address','CheckoutController@checkoutaddress');
+
+	Route::get('/my-orders/','FrontendController@myOrders');
+	Route::get('/view-order/{id}','FrontendController@viewOrder');
+	
+	Route::post('/checkout/order','CheckoutController@placeOrder')->name('checkout.place.order');
+	Route::post('coupon','FrontendController@storeCoupon')->name('storecoupon');
+	Route::delete('coupon/destroy','FrontendController@destroyCoupon')->name('destroyCoupon');
 
 });
 Route::post('/changepassword','Auth\\ChangePasswordController@changePassword')->name('changepassword');
 
 Route::post('subscribe','Frontend\\FrontendController@subscribe')->name('subscribe');
 
-Route::get('{slug}',function($slug){
+Route::get('page/{slug}',function($slug){
 	$page = App\Cms::where('slug',$slug)->first();
 	return view('frontend/staticPage',compact('page'));
 })->name('page');
 //checkout controller
 
+// Route::get('checkout/payment/complete', 'Frontend\CheckoutController@complete')->name('checkout.payment.complete');
 
+// Route::get('checkout/payment/complete', 'Frontend\CheckoutController@complete')->name('checkout.payment.complete');
+
+Route::post('product-variation','Admin\\ProductsController@get_variant_ajax');
 
 //end cart routes
 // Route::resource('admin/posts', 'Admin\\PostsController');
  
 
 // Route::resource('admin/users', 'Admin\\UsersController');
+
+// login with facebok
+Route::get('/redirect', 'SocialAuthFacebookController@redirect');
+Route::get('/callback', 'SocialAuthFacebookController@callback');
+
+// login with google
+Route::get('/google/redirect', 'SocialAuthGoogleController@redirect');
+Route::get('/google/callback', 'SocialAuthGoogleController@callback');

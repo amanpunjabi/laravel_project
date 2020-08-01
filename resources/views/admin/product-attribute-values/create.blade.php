@@ -1,16 +1,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Create New ProductAttribute Value</div>
+            <div class="card-header">Create New ProductAttribute Value for #{{ $productattribute->id }}-{{$productattribute->name }}</div>
             <div class="card-body">
 
-                 @if ($errors->any())
-                    <ul class="alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
+               {{--  {!! $errors->first('value', '<p class="help-block">:message</p>') !!} --}}
 
                 {!! Form::open(['url' => '/admin/product-attribute-values', 'class' => 'form-horizontal', 'files' => true,'id'=>'attribute_values',"onsubmit"=>"return valid_value()"]) !!}
 

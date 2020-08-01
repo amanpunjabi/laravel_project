@@ -50,6 +50,7 @@
                                         <th>ID</th><td>{{ $user->id }}</td>
                                     </tr>
                                     <tr><th> Firstname </th><td> {{ $user->firstname }} </td></tr><tr><th> Lastname </th><td> {{ $user->lastname }} </td></tr><tr><th> Email </th><td> {{ $user->email }} </td></tr>
+                                    <tr><th> Phone </th><td> {{ $user->phone }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

@@ -17,25 +17,34 @@ use App\Address;
 use App\ProductAttributeValue;
 use App\ProductVariation;
 use Newsletter;
+use App\Coupon;
+use Cart;
+use App\Order;
+use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\DB;
 // use App\Http\Controllers\Admin\CategoryController;
 
 class FrontendController extends Controller
 {
       public function index()
       {
-        $categories = Category::get()->where('parent_id',null);
-        $brands =  Brand::get();
-        $featured_products =  Product::paginate(1);
- 		    $recommended_products =  Product::get()->where('recommended',true);
-        return view('frontend.index',compact('categories','brands','featured_products','recommended_products'));
+       //  $categories = Category::get()->where('parent_id',null);
+       //  $brands =  Brand::get();
+       //  $featured_products =  Product::paginate(1);
+ 		    // $recommended_products =  Product::get()->where('recommended',true);
+       //  return view('frontend.index',compact('categories','brands','featured_products','recommended_products'));
       }
 
-      public function product_detail($id,$valueId=null)
+      public function product_detail($id,$value=null)
       {
         $product = Product::where('id',$id)->first();
-        if($valueId!=null)
+        if($product == null)
         {
-          $variation = ProductVariation::where(['product_id'=>$id,'attribute_value_id'=>$valueId])->first();
+           return view('404');
+        }
+        if($value!=null)
+        {
+          $variation = ProductVariation::where(['product_id'=>$id,'attribute_value'=>$value])->first();
           $product->variant = $variation;
           // print_r($product);
         }
@@ -44,7 +53,7 @@ class FrontendController extends Controller
 
        
         // $variation = $product->variation;
-        $attribute_values = ProductVariation::select('attribute_value_id')->where('attribute_id',$product->attribute_id)->get()->toArray();
+        $attribute_values = ProductVariation::select('attribute_value')->where(['attribute_id'=>$product->attribute_id,'product_id'=>$id])->get()->toArray();
           
         
         // $str = "";
@@ -71,6 +80,46 @@ class FrontendController extends Controller
         // dd($product->variation[0]->product_attribute_values_id);
       	return view('frontend.product-details',compact('product','attribute_values'));
 
+      }
+      //showing product list based on category
+      public function ProductByCategory($id=null)
+      {
+        if($id == null)
+        {
+          $products = Product::whereHas('variation')->paginate(20);
+          $categoryname = "In All Category";
+        }
+        else
+        {
+          $category = Category::where('id',$id)->orWhere('parent_id',$id)->pluck('id')->toArray();
+          $categoryname = Category::where('id',$id)->first()->category_name;
+          $productIds  = DB::table('product_categories')->whereIn('category_id',$category)->pluck('product_id');
+          $products = Product::whereHas('variation')->whereIn('id',$productIds)->paginate(20);
+          // dd($products->all());
+        }
+        
+
+         return view('frontend.product-list',compact('products','categoryname'));
+      }
+
+      public function ProductBySearch(Request $request)
+      {
+
+        $search = $request->search_query;
+        // dd($search);
+        if($search == null)
+        {
+          $products = Product::whereHas('variation')->paginate(20);
+          $search = "All Products";
+        }
+        else
+        {
+ 
+          $products = Product::whereHas('variation')->where('name','LIKE', "%$search%")->orWhere('description','LIKE', "%$search%")->paginate(20);
+        }
+        
+
+         return view('frontend.product-search-result',compact('products','search'));
       }
 
       public function add_wishlist($id)
@@ -99,7 +148,7 @@ class FrontendController extends Controller
           
          
           // dd($wishlist);
-          $featured_products = Product::whereIn('id',$wishlist)->get();
+          $featured_products = Product::whereHas('variation')->whereIn('id',$wishlist)->get();
           // dd($featured_products);
           return view('frontend.wishlist',compact('featured_products'));
       }
@@ -112,6 +161,8 @@ class FrontendController extends Controller
       
       public function profile()
       {
+
+
         $user = auth()->user();
 
         foreach($user->address as $address)
@@ -130,16 +181,16 @@ class FrontendController extends Controller
       
       public function profile_update(Request $request) {
 
-        // $this->validate($request, [
-        //   'firstname' => 'required',
-        //   'lastname' => 'required',
-        //   'email' => 'required|email',
-        //   'phone' => 'required|numeric',
-        //   'address'=>'required',
-        //   'city'=>'required',
-        //   'state'=>'required',
-        //   'pincode'=>'required'
-        // ]);
+        $this->validate($request, [
+          'firstname' => 'required',
+          'lastname' => 'required',
+          'email' => 'required|email',
+          'phone' => 'required|numeric',
+          'address'=>'required',
+          'city'=>'required',
+          'state'=>'required',
+          'pincode'=>'required'
+        ]);
             
         $requestData = $request->all();
         // dd($requestData);
@@ -167,6 +218,9 @@ class FrontendController extends Controller
         return redirect()->back()->with('success', 'Profile Updated!');
       }
 
+
+       
+
       public function subscribe(Request $request)
       {
         $this->validate($request, [
@@ -178,14 +232,49 @@ class FrontendController extends Controller
             return redirect()->back()->with('success', 'Subscribed Successfully!');
           }
           return redirect()->back()->with('info', 'Already Subscribed!');
+      }  
+
+      public function storeCoupon(Request $request) {
+        $validator = Validator::make($request->all(),['coupon_code'=>'required']);
+        $validator->validate();
+         $coupon = Coupon::where('code',$request->coupon_code)->first();
+         if(!$coupon)
+         {
+           $validator->errors()->add('coupon_code', 'Invalid Coupon Code');
+           return redirect()->route('cart.index')->withErrors($validator);
+         }
+         
+        session()->put('coupon',[
+          'code'=>$coupon->code,
+          'discount'=>$coupon->discount(Cart::subtotal(2,'.','')),
+
+        ]);
+        return redirect()->route('cart.index')->with('success','Coupon has been applied.');
+       // dd($coupon);
+        // dd($request->all());
+      }   
+      public function destroyCoupon(Request $request) {
+         session()->forget('coupon');
+         return redirect()->route('cart.index')->with('success','Coupon has been removed.');
+
       }
 
+      public function myOrders() {
 
-      //static page for cms
+        $orders = Order::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+        return view('frontend.orders',compact('orders'));
+        dd($orders->all());
+      }
 
-      public function get_page(Request $request)
+      public function viewOrder($id) {
+        $order = Order::findOrFail($id);
+        return view('frontend.view-order', compact('order'));
+        dd("aman");
+      }
+
+      public function categoryContent($id)
       {
-        echo "string";
-        dd($request);
+        $category = Category::find($id);
+        return view('frontend.category-tab-content',compact('category'));exit();  
       }
-}
+} 

@@ -5,13 +5,42 @@
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 							<?php $categories = getCategories() ?>
 							@foreach($categories as $category)
+
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">{{ $category->category_name }}</a></h4>
+									<h4 class="panel-title"><a data-toggle="collapse"  data-target="#category_{{ $category->id }}" onclick="changeicon(this)">
+										<span class=""><i class="fa fa-minus"></i></span>&nbsp;<a @if(isset($categoryname) && $category->category_name == $categoryname)style="color:#FC992B"@endif  href="{{ route('category.product',$category->id)}}" >{{ $category->category_name }}</a></a></h4>
+										 
 								</div>
-								
+								{{-- @while($childcategories = getChildCategories($category->id)) --}}
+								<?php $subcategories = getChildCategories($category->id); ?>
+								{{-- @if(count($childcategories) > 0) --}}
+
+								@include('frontend.subCategoryList',['subcategories' => $subcategories])
+								{{-- <div id="category_{{ $category->id }}" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											@forelse($childcategories as $childcategory)
+											<li><a href="#{{$childcategory->id}}">{{$childcategory->category_name}} </a></li>
+											@empty
+											N/A
+											@endforelse
+
+										</ul>
+									</div>
+								</div> --}}
+								{{-- @endwhile --}}
+								{{-- @endif --}}
 							</div>
 							@endforeach
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a>
+										<span class=""><a @if(isset($categoryname) &&  "In All Category" == $categoryname)style="color:#FC992B"@endif  href="{{ route('category.product')}}" >Explore all categories</a></a></h4>
+										 
+								</div>
+						</div><!--/category-products-->
+					 
 						</div><!--/category-products-->
 					
 						<div class="brands_products"><!--brands_products-->
@@ -26,18 +55,37 @@
 							</div>
 						</div><!--/brands_products-->
 						
-						<div class="price-range"><!--price-range-->
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div><!--/price-range-->
+						 
 						
 						<div class="shipping text-center"><!--shipping-->
-							<img src="images/home/shipping.jpg" alt="" />
+							<img src="{{asset('Eshopper/images/home/shipping.jpg')}}"alt="" />
 						</div><!--/shipping-->
 					
 					</div>
 				</div>
-				
+@push('js')
+<script type="text/javascript">
+	function changeicon(e)
+	{
+		// console.log(e);
+	   
+	    
+		var str = $(e).find("span").html();
+		if(str == '<i class="fa fa-plus"></i>')
+		{	
+			
+			$(e).find("span").html('<i class="fa fa-minus"></i>');
+			$($(e).attr('data-target')).removeClass('collapse').addClass('in');
+
+		}
+		else
+		{
+			
+			$(e).find("span").html('<i class="fa fa-plus"></i>');
+			$($(e).attr('data-target')).removeClass('in').addClass('collapse');
+		}
+		//  return true;
+	}
+</script>
+
+@endpush

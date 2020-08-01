@@ -18,7 +18,7 @@ class CreateProductVariationsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('product_id');
             $table->bigInteger('attribute_id');
-            $table->bigInteger('attribute_value_id');
+            $table->string('attribute_value');
              $table->text('description');
             $table->decimal('price', 10, 2);
             $table->bigInteger('quantity');

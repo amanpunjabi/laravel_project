@@ -127,6 +127,10 @@ class CategoryController extends Controller
 			'category_name' => 'required'
 		]);
         $requestData = $request->all();
+        if(!isset($requestData['featured']))
+        {
+            $requestData['featured'] = false;
+        }
         
         $category = Category::findOrFail($id);
         $category->update($requestData);

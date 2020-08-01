@@ -17,7 +17,7 @@ class CreateConfigurationTable extends Migration
             $table->bigIncrements('id');
             $table->string('key_name');
             $table->string('title');
-            $table->string('value');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
     }

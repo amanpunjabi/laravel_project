@@ -40,7 +40,7 @@
                             <table class="table" id="user_list">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Firstname</th><th>Lastname</th><th>Email</th><th>Actions</th>
+                                        <th>#</th><th>Firstname</th><th>Lastname</th><th>Email</th><th>Phone</th><th>Created at</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,14 +67,43 @@
   $(function () {
     
         table = $('#user_list').DataTable({
+           dom: 'Bfrtip',
+           
+        buttons: [
+        'pageLength',
+         {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4, 5 ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4, 5 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4, 5 ]
+                }
+            },
+
+            
+        ],
+         
         processing: true,
         serverSide: true,
+        
         ajax: "{{ route('admin.users.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'firstname', name: 'firstname'},
             {data: 'lastname', name: 'lastname'},
             {data: 'email', name: 'email'},
+            {data: 'phone', name: 'phone'},
+            {data: 'created_at', name: 'created_at'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

@@ -14,7 +14,7 @@ class UpdateProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->boolean('featured')->after('recommended');
+            $table->boolean('featured')->default(0)->after('recommended');
             $table->Integer('attribute_id')->nullable()->after('featured');
         });
     }

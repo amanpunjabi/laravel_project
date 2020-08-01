@@ -181,6 +181,8 @@ return [
         // bumbummen99\shoppingcart\src\Facades\Cart::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -238,6 +240,8 @@ return [
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Newsletter'=>Spatie\Newsletter\NewsletterServiceFacade::class, 
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

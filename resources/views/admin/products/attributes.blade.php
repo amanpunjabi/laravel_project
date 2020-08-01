@@ -55,6 +55,7 @@
                   @empty
                   <h3>Attributes not available</h3>
                   @endforelse
+                   <label>{!! Form::radio('attribute_id',"",null,["class"=>'attr']) !!} NA</label>
                   {!! $errors->first('attribute_id', '<p class="text-danger">:message</p>') !!}
                   </div>
                   <div class="form-group">{{ Form::button('Add/Remove',['class'=>'btn btn-primary','onclick'=>'return getattrval()']) }}
@@ -62,7 +63,7 @@
                   
                   <div class="form-group" id="select_value">
                   </div>
-                  {!! $errors->first('attribute_value_id', '<p class="text-danger">:message</p>') !!}
+                  {!! $errors->first('attribute_value', '<p class="text-danger">:message</p>') !!}
                   <div class="form-group">
                     {{ Form::hidden('product_id',$product->id) }}
                   {{ Form::label('quantity', 'Quantity: ', ['class' => 'control-label']) }}
@@ -97,9 +98,11 @@
                   </thead>
                   <tbody>
                   @foreach($product->variation as $variation) <tr>
+                     
                       <td>{{ $loop->index+1 }}</td>
                       <td>{{ get_attribute_name($variation->attribute_id) }}</td>
-                      <td>{{ get_attribute_value($variation->attribute_value_id) }}</td>
+                      {{-- <td>{{ get_attribute_value($variation->attribute_value) }}</td> --}}
+                     <td> {{$variation->attribute_value}}</td>
                       <td>{{ $variation->quantity }}</td>
                       <td>{{ $variation->price }}</td>
                       <td><form action="{{ route('admin.remove-variant',$variation->id)}}" method="post">
@@ -127,10 +130,16 @@
 <script type="text/javascript">
   function getattrval()
   {
-    var attr = [];
+    var attr;
     $(".attr:checked").each(function() {
-      attr.push($(this).val());
+      // attr.push($(this).val());
+      attr = $(this).val();
     });
+    
+    if(attr == null)  {
+      $('#select_value').html();
+    }
+    else{
     var token = $("meta[name='csrf-token']").attr("content");
     $.ajax({
     url: "{{ route('admin.products.attribute_value') }}",
@@ -144,6 +153,7 @@
     }
 
     });
+  }
 
  
   }

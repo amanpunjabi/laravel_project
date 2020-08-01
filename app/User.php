@@ -39,7 +39,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'confirm_password', 'status','phone'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'confirm_password', 'status','phone','stripe_id'];
 
     public function roles()
     {
@@ -50,6 +50,11 @@ class User extends Authenticatable
     { 
       // dd("amandd");
         return $this->hasMany('App\Address');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Order');
     }
 
     public function hasAnyRole($roles){
@@ -77,4 +82,5 @@ class User extends Authenticatable
         return false;
     }
     
+
 }

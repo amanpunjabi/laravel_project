@@ -51,7 +51,7 @@ class ProductAttributeValuesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'value' => 'required'
+			'value' => 'required|unique:product_attribute_values'
 		]);
         $requestData = $request->all();
         

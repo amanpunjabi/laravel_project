@@ -75,7 +75,7 @@
                           
                           <div class="card">  
                             <div class="card-header">
-                              <a href="#"  id="{{ $pro->id }}" onclick="return show_warning(this)" class=" float-right" style="color: #CD5C5C"><i class="fa fa-times" aria-hidden="true"></i></a> 
+                              <a href="#"  id="{{ $pro->id }}" onclick="return show_warning_delete(this)" class=" float-right" style="color: #CD5C5C"><i class="fa fa-times" aria-hidden="true"></i></a> 
                             </div>
                           <div class="card-body">
                             <div class="col-md-3">
@@ -104,10 +104,8 @@
 @endsection
 @push('datatable-js')
 <script type="text/javascript">
- function show_warning(ev){
-  var id = $(ev). attr("id");
-  // alert(id);
-  
+ function show_warning_delete(ev){
+  var id = $(ev). attr("id"); 
  swal({
   title: "Are you sure?",
   text: "Once deleted, you will not be able to recover this!",

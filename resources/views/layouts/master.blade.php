@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
+   <link rel="icon" sizes="180x180" href="{{asset('frontend/android-chrome-192x192.png')}}">
   <title>AdminLTE 3 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +30,10 @@
   <link href="{{ asset("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700") }}"  rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('select2-4.0.13/dist/css/select2.min.css') }}">
-  {{-- <script src={{ asset("sweetalert/sweetalert.min.js") }}></script> --}}
+  <script src={{ asset("sweetalert/sweetalert.min.js") }}></script>
+
+  {{-- custom css --}}
+   <link rel="stylesheet" href={{ asset("css/custom.css") }}>
 
   @stack('css')
   
@@ -101,9 +104,32 @@
 <script src={{ asset("dist/js/demo.js") }}></script>
  
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js
+"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js
+"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js
+"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js
+"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js
+"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js
+"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js
+"></script>
+
+
 @stack('datatable-js');
 <script type="text/javascript" src="{{ asset('select2-4.0.13/dist/js/select2.min.js') }}"></script>
-@include('sweetalert::alert')
+{{-- @include('sweetalert::alert') --}}
 @stack('js');
 </body>
 </html>

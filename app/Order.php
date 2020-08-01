@@ -8,8 +8,8 @@ class Order extends Model {
     protected $table = 'orders';
 
     protected $fillable = [
-        'order_number', 'user_id', 'status', 'grand_total', 'item_count', 'payment_status', 'payment_method',
-        'firstname', 'lastname', 'address', 'city', 'state', 'pincode', 'phone', 'notes'
+        'order_number', 'user_id', 'status','subtotal','tax','discount', 'grand_total', 'item_count', 'payment_status', 'payment_method',
+        'firstname', 'lastname', 'address', 'city', 'state', 'pincode', 'phone', 'notes','coupon'
     ];
 
     public function user() {
@@ -19,5 +19,10 @@ class Order extends Model {
 
     public function items() {
         return $this->hasMany('App\OrderItem');
+    }
+
+    public function countCouponUsed($code) {
+        $count = $this::get();
+        dd($count);
     }
 }

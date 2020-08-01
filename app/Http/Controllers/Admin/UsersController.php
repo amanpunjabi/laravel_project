@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\User;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -66,7 +67,9 @@ class UsersController extends Controller
         $this->validate($request, [
 			'firstname' => 'required',
 			'lastname' => 'required',
-			'email' => 'required|email',
+			'email' => 'required|email|unique:users',
+            'phone'=>'required', 
+            'confirm_password'=>'same:password',
 			'password' => 'required'
 		]);
         $requestData = $request->all();
@@ -117,12 +120,20 @@ class UsersController extends Controller
         $this->validate($request, [
 			'firstname' => 'required',
 			'lastname' => 'required',
-			'email' => 'required|email',
-			'password' => 'required'
-		]);
+			'email' => 'required|email|unique:users,email,' . $id,
+            'confirm_password'=>'same:password',
+
+		]); 
         $requestData = $request->all();
-        
-        $user = User::findOrFail($id);
+        if($requestData['password'] == "")
+        {
+            unset($requestData['password']);
+        }
+        else
+        {
+            $requestData['password'] = Hash::make($requestData['password']); 
+        }
+        $user = User::find($id);
         $user->update($requestData);
 
         return redirect('admin/users')->with('flash_message', 'User updated!');

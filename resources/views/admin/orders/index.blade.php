@@ -30,12 +30,41 @@
            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                    <a href="{{ url('/admin/products/create') }}" class="btn btn-success btn-sm float-sm-right" title="Add New Product">
+                    {{-- <a href="{{ url('/admin/products/create') }}" class="btn btn-success btn-sm float-sm-right" title="Add New Product">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                        </a> --}}
                     <h3 class="card-title">Orders</h3></div>
+                    <div class="m-3">
+                    <form class="form-inline" id="search-form">
+                       <div class="form-group">
+                        <label class="mr-sm-2">Order Status:</label> <select class="form-control mr-sm-2" name="status">
+                          <option value="">Select</option>
+                            <option value="pending">pending</option>
+                            <option value="processing">processing</option>
+                            <option value="decline">decline</option>
+                            <option value="completed">completed</option>
+
+                        </select>
+                       </div> 
+                       <div class="form-group">
+                        <label class="mr-sm-2">Payment Status:</label> 
+                        <select class="form-control mr-sm-2" name="payment_status">
+                          <option value="">Select</option>
+                            <option value="0">pending</option>
+                            <option value="1">paid</option>
+                        </select>
+                       </div> 
+
+                       <div class="form-group">
+
+                       </div>
+                       <div class="form-group ">
+                        <input type="submit" name="" class="btn btn-sm btn-info">
+                       </div>
+                    </form>
+                  </div>
                     <div class="card-body">
- 
+
                         <div class="table-responsive" style="display: block;width:  width: 80%;">
                             <table class="table" id="product_list">
                                 <thead>
@@ -48,7 +77,7 @@
                                          <th>Payment</th>
                                         <th>Order Status</th>
                                         <th>Order Date</th>
-                                        <th>Actions</th>
+                                        
 
                                     </tr>
                                 </thead>
@@ -78,7 +107,24 @@
         table = $('#product_list').DataTable({
         processing: true,
         serverSide: true,
+        dom: 'Bfrtip',  
+        buttons: [
+        'pageLength', 
+         {
+                extend: 'copyHtml5',
+                 
+            },
+            {
+                extend: 'excelHtml5',
+                
+            },
+            {
+                extend: 'pdfHtml5',
+                 
+            },
 
+            
+        ],
          columnDefs: [
             { width: 200, targets: 0},
             { width: 200, targets: 1},
@@ -88,9 +134,15 @@
             { width: 200, targets: 5},
             { width: 200, targets: 6},
             { width: 200, targets: 7},
-            { width: 200, targets: 8}             
+                       
         ],
-        ajax: "{{ route('admin.orders.index') }}",
+        ajax: {
+          url :"{{ route('admin.orders.index') }}",
+         data: function (d) {
+              d.status = $('[name=status]').val(); 
+              d.payment_status = $('[name=payment_status]').val();
+          }
+        },
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'order_number', name: 'order_number'},
@@ -100,12 +152,18 @@
             {data: 'payment_status', name: 'payment_status'},
             {data: 'status', name: 'status'},
             {data: 'created_at', name: 'created_at'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+            
         ]
     });
     
   });
+    $('#search-form').on('submit', function(e) {
+      e.preventDefault();
+        table.draw();
+        
+    });
 </script>
+
  <script type="text/javascript">
  function show_warning(ev){
   var id = $(ev). attr("id");

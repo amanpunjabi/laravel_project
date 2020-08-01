@@ -1,5 +1,5 @@
 @extends('frontend.layout.master')
-@section('content')
+@section('content') 
  
 				<div class="col-sm-12 padding-right">
 					<div class="features_items"><!--features_items-->
@@ -19,12 +19,17 @@
 											@endforeach
 											<h2>${{ $product->price }}</h2>
 											<p>{{ $product->name }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">
+												<i class="fa fa-eye"></i>View
+												</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												<a href="{{ route('product_detail',$product->id)}}"><h2>${{ $product->price }}</h2>
+												<h2>${{ $product->price }}</h2>
 												<p>{{ $product->name }}</p>
+												 
+												<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">
+												<i class="fa fa-eye"></i>View
 												</a>
 												{{-- add to cart form 		 --}}
 
@@ -36,7 +41,7 @@
 			                                        <input type="hidden" value="{{ $image->image ?? ''}}" id="img" name="img">
 			                                        {{-- <input type="hidden" value="{{ $pro->slug }}" id="slug" name="slug"> --}}
 			                                        <input type="hidden" value="1" id="quantity" name="quantity">
-			                                        <button type="submit" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+			                                       {{--  <button type="submit" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button> --}}
 			                                    	</form>
 
 													{{-- end add to cart form --}}
@@ -46,7 +51,7 @@
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
 										<li><a href="{{ route('remove_wishlist',$product->id) }}"><i class="fa fa-minus-square"></i>Remove from wishlist</a></li>
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+										 
 									</ul>
 								</div>
 							</div>

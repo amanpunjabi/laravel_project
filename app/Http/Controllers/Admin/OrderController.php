@@ -10,7 +10,8 @@ use App\Category;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
-use DataTables;
+use DataTables; 
+use  Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -21,11 +22,23 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-         if ($request->ajax()) {
-            $data = Order::latest()->get();
+          if ($request->ajax()) {
+             
+            $query = Order::latest(); 
+            if(isset($request->status))
+            {
+              $query->where('status',$request->status);
+            }
+            if(isset($request->payment_status))
+            {
+              $query->where('payment_status',$request->payment_status);
+            }
+            $data =  $query->get();
+            // $request->stat
           // dd($data->toArray());
             return Datatables::of($data)
-                    ->addIndexColumn()
+            
+            ->addIndexColumn()
                     ->editColumn('order_number', function($row) {
                         // if($row->brand_id != "")
                         // {
@@ -78,17 +91,15 @@ class OrderController extends Controller
                         
                         // 
                     })
-                    ->addColumn('action', function($row){
+                    // ->filter(function ($instance) use ($request) {
+                    //     if (!empty($request->get('status'))&& $request->get('status')!='Select') {
+                    //         $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                    //             return Str::contains($row['status'], $request->get('status')) ? true : false;
+                    //         });
+                    //     }
    
-                           // $button= '<a href="'.url("/admin/users/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
-
-                           $button =  '&nbsp;&nbsp;<a href="'.url("/admin/products/" . $row->id. "/edit").'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i>  </a>';
-
-                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/products' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a>';
-                            return $button;
-                    })
-
-                    ->rawColumns(['action','order_number'])
+                    // })
+                   ->rawColumns(['action','order_number'])
                     ->make(true);
         }
 
@@ -151,8 +162,7 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order'));
         dd("aman");
     }
-
-    /**
+       /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -180,28 +190,24 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-			'name' => 'required',
-			'code' => 'required',
-			'price' => 'required|numeric',
-			'description' => 'required'
-		]);
-        $requestData = $request->all();
-        if(!isset($requestData['featured']))
+        $order = Order::find($id);
+        if($order)
         {
-            $requestData['featured'] = false;
-        }
-        if(!isset($requestData['recommended']))
+          if($order->update($request->all()))
+          {
+            echo "true";
+          }
+          else
+          {
+            echo "false";
+          }
+        }  
+        else
         {
-            $requestData['recommended'] = false;
-        }
-        $product = Product::findOrFail($id);
-        $product->update($requestData);
-        if ($request->has('category')) {
-                $product->categories()->sync($request['category']);
-        }
-
-        return redirect('admin/products')->with('flash_message', 'Product updated!');
+          echo "false";
+        }      
+         
+        exit;
     }
 
     /**

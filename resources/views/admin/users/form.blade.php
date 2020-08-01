@@ -1,35 +1,40 @@
 <div class="form-group {{ $errors->has('firstname') ? 'has-error' : ''}}">
     <label for="firstname" class="control-label">{{ 'Firstname' }}</label>
-    <input class="form-control" name="firstname" type="text" id="firstname" value="{{ isset($user->firstname) ? $user->firstname : ''}}" required>
+    <input class="form-control" name="firstname" type="text" id="firstname" value="{{ isset($user->firstname) ? $user->firstname : old('firstname')}}" required>
     {!! $errors->first('firstname', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('lastname') ? 'has-error' : ''}}">
     <label for="lastname" class="control-label">{{ 'Lastname' }}</label>
-    <input class="form-control" name="lastname" type="text" id="lastname" value="{{ isset($user->lastname) ? $user->lastname : ''}}" required>
+    <input class="form-control" name="lastname" type="text" id="lastname" value="{{ isset($user->lastname) ? $user->lastname : old('lastname')}}" required>
     {!! $errors->first('lastname', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('email') ? 'has-error' : ''}}">
     <label for="email" class="control-label">{{ 'Email' }}</label>
-    <input class="form-control" name="email" type="email" id="email" value="{{ isset($user->email) ? $user->email : ''}}" required>
+    <input class="form-control" name="email" type="email" id="email" value="{{ isset($user->email) ? $user->email : old('email')}}" required>
     {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
+</div>
+<div class="form-group {{ $errors->has('phone') ? 'has-error' : ''}}">
+    <label for="phone" class="control-label">{{ 'Phone' }}</label>
+    <input class="form-control" name="phone" type="phone" id="phone" value="{{ isset($user->phone) ? $user->phone : old('phone')}}" required>
+    {!! $errors->first('phone', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('password') ? 'has-error' : ''}}">
     <label for="password" class="control-label">{{ 'Password' }}</label>
-    <input class="form-control" name="password" type="password" id="password" required>
+    <input class="form-control" name="password" type="password" id="password" {{ $formMode === 'edit' ? '' : 'required' }}>
     {!! $errors->first('password', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('confirm_password') ? 'has-error' : ''}}">
     <label for="confirm_password" class="control-label">{{ 'Confirm Password' }}</label>
-    <input class="form-control" name="confirm_password" type="password" id="confirm_password" >
+    <input class="form-control" name="confirm_password" type="password" id="confirm_password" {{ $formMode === 'edit' ? '' : 'required' }}>
     {!! $errors->first('confirm_password', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
     <label for="status" class="control-label">{{ 'Status' }}</label>
     <div class="radio">
-    <label><input name="status" type="radio" value="1" {{ (isset($user) && 1 == $user->status) ? 'checked' : '' }}> Yes</label>
+    <label><input name="status" type="radio" value="1" {{ (isset($user) && 1 == $user->status) ? 'checked' : '' }} > Yes</label>
 </div>
 <div class="radio">
-    <label><input name="status" type="radio" value="0" @if (isset($user)) {{ (0 == $user->status) ? 'checked' : '' }} @else {{ 'checked' }} @endif> No</label>
+    <label><input name="status" type="radio" value="0" @if (isset($user)) {{ (0 == $user->status) ? 'checked' : '' }} @else {{ 'checked' }} @endif  > No</label>
 </div>
     {!! $errors->first('status', '<p class="help-block">:message</p>') !!}
 </div>

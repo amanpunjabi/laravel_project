@@ -35,7 +35,8 @@ class ConfigurationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        
         $req = $request->all();
         unset($req['_token']);
         foreach ($req as $key=>$value) {

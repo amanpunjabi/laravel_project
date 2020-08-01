@@ -39,7 +39,12 @@ class ContactUsController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'subject'=>'required', 
+            'message'=>'required',  
+        ]);
         ContactUs::create($request->all());
         $email = emailTemplate('contact_us');
         $email->subject = str_replace("{SUBJECT}","Message Received",$email->subject);

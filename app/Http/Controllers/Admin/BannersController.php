@@ -72,12 +72,17 @@ class BannersController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
-    {
-        
+    {   
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required', 
+            'image'=>'required|mimes:jpeg,png,jpg'
+        ]);
+
         $requestData = $request->all();
                 if ($request->hasFile('image')) {
             $requestData['image'] = $request->file('image')
-                ->store('brands', 'public');
+                ->store('banner', 'public');
         }
 
         Banner::create($requestData);
@@ -122,7 +127,12 @@ class BannersController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
-    {
+    {   
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required', 
+            'image'=>'mimes:jpeg,png,jpg'
+        ]);
         
         $requestData = $request->all();
                 if ($request->hasFile('image')) {

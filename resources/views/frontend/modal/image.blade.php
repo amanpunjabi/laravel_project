@@ -20,7 +20,7 @@
           <div class="modal-body mb-0 p-0">
 
             <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
-              <img class="embed-responsive-item" src="{{ asset('storage/'.$imgname) }}"
+              <img class="embed-responsive-item" src="{{ $imgname }}"
                 allowfullscreen height="auto" width="auto" />
             </div>
 

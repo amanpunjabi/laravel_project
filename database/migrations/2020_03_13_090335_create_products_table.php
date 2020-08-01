@@ -16,12 +16,12 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('code')->nullable();
-            $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('brand_id')->nullable();
             $table->string('price')->nullable();
-            $table->string('special_price')->nullable();
+            // $table->string('special_price')->nullable();
             $table->text('description')->nullable();
             $table->string('status');
-            $table->boolean('recommended');
+            $table->boolean('recommended')->default(0);
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->timestamps();
             });

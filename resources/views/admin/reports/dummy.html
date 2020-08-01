@@ -1,0 +1,178 @@
+<div class="container-fluid">
+<div class="card panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><i class="fa fa-bar-chart"></i> Choose the report type</h3>
+</div>
+<div class="panel-body">
+
+</div>
+</div>
+<div><div class="row">
+<div id="filter-report" class="col-md-3 col-md-push-9 col-sm-12 hidden-sm hidden-xs">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><i class="fa fa-filter"></i> Filter</h3>
+</div>
+<div class="panel-body">
+<div class="form-group">
+<label class="control-label" for="input-date-start">Date Start</label>
+<div class="input-group date">
+<input type="text" name="filter_date_start" value="2020-07-01" placeholder="Date Start" data-date-format="YYYY-MM-DD" id="input-date-start" class="form-control">
+<span class="input-group-btn">
+<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+</span>
+</div>
+</div>
+<div class="form-group">
+<label class="control-label" for="input-date-end">Date End</label>
+<div class="input-group date">
+<input type="text" name="filter_date_end" value="2020-07-28" placeholder="Date End" data-date-format="YYYY-MM-DD" id="input-date-end" class="form-control">
+<span class="input-group-btn">
+<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+</span>
+</div>
+</div>
+<div class="form-group">
+<label class="control-label" for="input-group">Group By</label>
+<select name="filter_group" id="input-group" class="form-control">
+<option value="year">Years</option>
+<option value="month">Months</option>
+<option value="week" selected="selected">Weeks</option>
+<option value="day">Days</option>
+</select>
+</div>
+<div class="form-group">
+<label class="control-label" for="input-status">Status</label>
+<select name="filter_order_status_id" id="input-status" class="form-control">
+<option value="0">All Statuses</option>
+<option value="7">Canceled</option>
+<option value="9">Canceled Reversal</option>
+<option value="13">Chargeback</option>
+<option value="5">Complete</option>
+<option value="8">Denied</option>
+<option value="14">Expired</option>
+<option value="10">Failed</option>
+<option value="1">Pending</option>
+<option value="15">Processed</option>
+<option value="2">Processing</option>
+<option value="11">Refunded</option>
+<option value="12">Reversed</option>
+
+<option value="3">Shipped</option>
+<option value="16">Voided</option>
+</select>
+</div>
+<div class="form-group text-right">
+<button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-filter"></i> Filter</button>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-9 col-md-pull-3 col-sm-12">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h3 class="panel-title"><i class="fa fa-bar-chart"></i> Sales Report</h3>
+</div>
+<div class="panel-body">
+<div class="table-responsive">
+<table class="table table-bordered">
+<thead>
+<tr>
+<td class="text-left">Date Start</td>
+<td class="text-left">Date End</td>
+<td class="text-right">No. Orders</td>
+<td class="text-right">No. Products</td>
+<td class="text-right">Tax</td>
+<td class="text-right">Total</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left">27/07/2020</td>
+<td class="text-left">28/07/2020</td>
+<td class="text-right">6</td>
+<td class="text-right">6</td>
+<td class="text-right">$25.00</td>
+<td class="text-right">$655.00</td>
+</tr>
+<tr>
+<td class="text-left">19/07/2020</td>
+<td class="text-left">25/07/2020</td>
+<td class="text-right">36</td>
+<td class="text-right">42</td>
+<td class="text-right">$316.00</td>
+<td class="text-right">$4,696.00</td>
+</tr>
+<tr>
+<td class="text-left">13/07/2020</td>
+<td class="text-left">18/07/2020</td>
+<td class="text-right">30</td>
+<td class="text-right">50</td>
+<td class="text-right">$75.00</td>
+<td class="text-right">$5,225.00</td>
+</tr>
+<tr>
+<td class="text-left">05/07/2020</td>
+<td class="text-left">10/07/2020</td>
+<td class="text-right">8</td>
+<td class="text-right">15</td>
+<td class="text-right">$204.00</td>
+<td class="text-right">$1,744.00</td>
+</tr>
+<tr>
+<td class="text-left">01/07/2020</td>
+<td class="text-left">04/07/2020</td>
+<td class="text-right">10</td>
+<td class="text-right">2008</td>
+<td class="text-right">$0.00</td>
+<td class="text-right">$200,850.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="row">
+<div class="col-sm-6 text-left"></div>
+<div class="col-sm-6 text-right">Showing 1 to 5 of 5 (1 Pages)</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = '';
+	
+	var filter_date_start = $('input[name=\'filter_date_start\']').val();
+	
+	if (filter_date_start) {
+		url += '&filter_date_start=' + encodeURIComponent(filter_date_start);
+	}
+
+	var filter_date_end = $('input[name=\'filter_date_end\']').val();
+	
+	if (filter_date_end) {
+		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+	}
+		
+	var filter_group = $('select[name=\'filter_group\']').val();
+	
+	if (filter_group) {
+		url += '&filter_group=' + encodeURIComponent(filter_group);
+	}
+	
+	var filter_order_status_id = $('select[name=\'filter_order_status_id\']').val();
+	
+	if (filter_order_status_id != 0) {
+		url += '&filter_order_status_id=' + encodeURIComponent(filter_order_status_id);
+	}	
+
+	location = 'index.php?route=report/report&code=sale_order&user_token=3j5tz7u1I7OnJZ03NV8PhCyojONwpiF4' + url;
+});
+//--></script>
+<script type="text/javascript"><!--
+$('.date').datetimepicker({
+	language: 'en-gb',
+	pickTime: false
+});
+//--></script></div>
+</div>

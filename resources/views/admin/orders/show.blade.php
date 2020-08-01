@@ -31,10 +31,19 @@
                 <div class="card">
                  <div class="card-header">Order {{ $order->id }}</div>
                     <div class="card-body">
+                     
+                      <label   class="float-right" >  Update Status
+                          <select class="form-control"  onchange="updateOrder(this)" > 
+                            <option value="pending" {{ ($order->status=="pending")?"selected":''}}>pending</option>
+                            <option value="processing" {{ ($order->status=="processing")?"selected":''}}>processing</option>
+                            <option value="completed" {{ ($order->status=="completed")?"selected":''}}>completed</option>
+                            <option value="decline" {{ ($order->status=="decline")?"selected":''}}>decline</option> 
+                          </select>
+                      </label>
+                        <a href="{{ url('/admin/orders') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        {{-- <a href="{{ url('/admin/orders  /' . $order->id . '/edit') }}" title="Edit Product"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a> --}}
 
-                        <a href="{{ url('/admin/products') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <a href="{{ url('/admin/products/' . $order->id . '/edit') }}" title="Edit Product"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-                        {!! Form::open([
+                       {{--  {!! Form::open([
                             'method'=>'DELETE',
                             'url' => ['admin/products', $order->id],
                             'style' => 'display:inline'
@@ -45,16 +54,16 @@
                                     'title' => 'Delete Product',
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
-                        {!! Form::close() !!}
-                        <br/>
-                        <br/>
+                        {!! Form::close() !!} --}}
+                        <a href="#" type='button' class="btn btn-info btn-sm" id='btn' value='Print' onclick='printDiv();'>Print</a>
+                    </div>   
                 
-                <div class="container">
+                <div class="container" id="DivIdToPrint">
   <div class="card">
 <div class="card-header">
 Order Date :
 <strong>{{ $order->created_at }}</strong> 
-  <span class="float-right"> <strong>Status:</strong> {{ ucfirst($order->status) }}</span>
+  <span class="float-right"> <strong>Status:</strong><span id="status"> {{ ucfirst($order->status) }}</span></span>
 
 </div>
 <div class="card-body">
@@ -100,10 +109,13 @@ Order Date :
 </thead>
 <tbody>
 @foreach($order->items as $item)
+  <?php $product = App\Product::find($item->product_id); ?>
+
+  <?php  $variation = App\ProductVariation::find($item->variation_id); ?>
   <tr>
     <td class="center">{{ $loop->index+1 }}</td>
-    <td class="left strong">{{-- {{ dd($item->order)}} --}}</td>
-    <td class="left"> </td>
+    <td class="left strong">{{$product->name}}({{$variation->attribute_value}})</td>
+    <td class="left">{{ $product->description }} </td>
 
     <td class="right">{{ number_format($item->price,2) }}</td>
       <td class="center">{{ $item->quantity }}</td>
@@ -125,26 +137,26 @@ Order Date :
 <td class="left">
 <strong>Subtotal</strong>
 </td>
-<td class="right">$8.497,00</td>
+<td class="right">${{ number_format($order->subtotal,2) }}</td>
 </tr>
 <tr>
 <td class="left">
-<strong>Discount (20%)</strong>
+<strong>Discount</strong>
 </td>
-<td class="right">$1,699,40</td>
+<td class="right">${{number_format($order->discount,2)}}</td>
 </tr>
 <tr>
 <td class="left">
- <strong>VAT (10%)</strong>
+ <strong>VAT </strong>
 </td>
-<td class="right">$679,76</td>
+<td class="right">${{ number_format($order->tax,2)}}</td>
 </tr>
 <tr>
 <td class="left">
 <strong>Total</strong>
 </td>
 <td class="right">
-<strong>$7.477,36</strong>
+<strong>${{number_format($order->grand_total,2)}}</strong>
 </td>
 </tr>
 </tbody>
@@ -171,3 +183,64 @@ Order Date :
   </div>
   <!-- /.content-wrapper -->
 @endsection
+@push('js')
+<script type="text/javascript">
+function printDiv() 
+{
+
+  var divToPrint=document.getElementById('DivIdToPrint');
+
+  var newWin=window.open('','Print-Window');
+
+  newWin.document.open();
+
+ 
+  newWin.document.write('<html><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> <body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+  newWin.document.close();
+
+  setTimeout(function(){newWin.close();},10);
+
+}
+</script>
+<script type="text/javascript">
+  function updateOrder(e)
+  {
+ 
+     
+    $.ajax({
+        url: "{{route('admin.orders.update',$order->id)}}" ,
+        type: 'patch',
+        data: {
+            "status": e.value,
+            "_token":  "{{ csrf_token() }}",
+        },
+        success: function (data) {
+          if(data == "false")
+          {
+            swal("oops! Failed to update order", {
+            buttons: false,
+            timer: 1000,
+            
+          });
+          }
+          else
+          { 
+
+            swal("Poof! Order status has been changes!", {
+            buttons: false,
+            timer: 1000,
+            
+          });
+          str = e.value;
+          str = str.charAt(0).toUpperCase() + str.slice(1); 
+            $('#status').html(str);
+          }
+           
+           
+        }
+
+    });
+  }
+</script>
+@endpush

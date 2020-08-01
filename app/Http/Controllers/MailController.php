@@ -11,16 +11,16 @@ class MailController extends Controller {
    public function basic_email($data) {  
       // dd($data);
       Mail::send('email', $data, function($message) use($data){
-         $message->to('amanpunjabi61@gmail.com', 'Tutorials Point')->subject
+         $message->to('amanpunjabi61@gmail.com', 'Admin')->subject
             ($data['subject']);
       });
       
     }
 
     public function register_email($data) {  
-      // dd($data);
+      // dd($data); 
       Mail::send('email', $data, function($message)use($data) {
-         $message->to($data['email'], 'Tutorials Point')->subject
+         $message->to($data['email'], 'Admin')->subject
             ($data['subject']);
       });
    }

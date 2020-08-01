@@ -13,7 +13,7 @@ use App\Product_image;
 use App\ProductAttribute;
 use App\Rules\Everynullelement;
 use App\ProductVariation;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Arr; 
 class ProductsController extends Controller
 {
     /**
@@ -68,7 +68,8 @@ class ProductsController extends Controller
     {
         $categories = Category::pluck('category_name','id')->toArray();
         $brands = Brand::pluck('name','id')->toArray();
-        return view('admin.products.create',compact(['brands','categories']));
+        $attributes = ProductAttribute::pluck('name','id')->toArray();
+        return view('admin.products.create',compact(['brands','categories','attributes']));
     }
 
     /**
@@ -85,7 +86,7 @@ class ProductsController extends Controller
 			'code' => 'required',
 			'price' => 'required|numeric',
 			'description' => 'required'
-		]);
+		],['name.required'=>'Product name required.']);
 
         $requestData = $request->all();
         // dd($requestData['category']);
@@ -125,11 +126,11 @@ class ProductsController extends Controller
     {
         $categories = Category::pluck('category_name','id')->toArray();
         $brands = Brand::pluck('name','id')->toArray();
-
+        $attributes = ProductAttribute::pluck('name','id')->toArray();
         $product = Product::findOrFail($id);
         // dd($product->categories->toArray());
 
-        return view('admin.products.edit', compact(['brands','categories','product']));
+        return view('admin.products.edit', compact(['brands','categories','product','attributes']));
     }
 
     /**
@@ -232,15 +233,15 @@ class ProductsController extends Controller
             echo "";
             exit;
         }
-        foreach($attr as $id) {
-           $productattribute = ProductAttribute::findOrFail($id);
-            $data.= "<select name='attribute_value_id' class='form-control col-lg-3 m-1'>";
+        // foreach($attr as $id) {
+           $productattribute = ProductAttribute::findOrFail($attr);
+            $data.= "<select name='attribute_value' class='form-control col-lg-3 m-1'>";
             $data.= "<option value=''>select ".$productattribute->name."</option>";
            foreach ($productattribute->values as $value) {
-            $data.= "<option value='".$value->id."'>".$value->value."</option>";
+            $data.= "<option value='".$value->value."'>".$value->value."</option>";
             }
           $data.= "</select>";
-        }
+        // }
         echo $data;
         exit;
     }
@@ -258,7 +259,7 @@ class ProductsController extends Controller
 
     
 
-        $oldval  = ProductVariation::where(array('product_id'=>$id,'attribute_id'=>$request->get('attribute_id'),'attribute_value_id'=>$request->get('attribute_value_id')))->count();
+        $oldval  = ProductVariation::where(array('product_id'=>$id,'attribute_id'=>$request->get('attribute_id'),'attribute_value'=>$request->get('attribute_value')))->count();
          
         if($oldval > 0)
         {
@@ -302,4 +303,12 @@ class ProductsController extends Controller
         ProductVariation::destroy($id);
         return redirect()->back()->with('success', 'Variation deleted!');
     }
+
+     public function get_variant_ajax(Request $request)
+      {
+
+       $variation =  ProductVariation::where(['product_id'=>$request->product_id,'attribute_value'=>$request->attribute_value,'attribute_id'=>$request->attribute_id])->first();
+        echo json_encode($variation);
+        exit;
+      }
 }

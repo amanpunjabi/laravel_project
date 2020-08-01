@@ -12,7 +12,10 @@
                   
     {!! $errors->first('parent_id', '<p class="help-block">:message</p>') !!}
 </div>
-
+<div class="form-group"> 
+{!! Form::checkbox('featured',true) !!} 
+    {!! Form::label('featured', 'Featured', ['class' => 'control-label']) !!}
+</div>
 
 <div class="form-group">
     {!! Form::submit($formMode === 'edit' ? 'Update' : 'Create', ['class' => 'btn btn-primary']) !!}
