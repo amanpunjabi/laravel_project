@@ -7,7 +7,7 @@ use App\Http\Requests;
 use App\Coupon;
 use Illuminate\Http\Request;
 use DataTables;
-
+Use Alert;
 class CouponsController extends Controller
 {
     /**
@@ -26,11 +26,11 @@ class CouponsController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
-                           $button= '<a href="'.url("/admin/coupons/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
+                           $button= '<div class="btn-group" role="group" aria-label=""><a href="'.url("/admin/coupons/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
 
                            $button.=  '&nbsp;&nbsp;<a href="'.url("/admin/coupons/" . $row->id. "/edit").'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i>  </a>';
 
-                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/coupons' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a>';
+                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/coupons' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a></div>';
 
                             return $button;
                     })
@@ -68,7 +68,7 @@ class CouponsController extends Controller
         
         Coupon::create($requestData);
 
-        return redirect('admin/coupons')->with('flash_message', 'Coupon added!');
+        return redirect('admin/coupons')->with('success', 'Coupon added!');
     }
 
     /**
@@ -119,7 +119,7 @@ class CouponsController extends Controller
         $coupon = Coupon::findOrFail($id);
         $coupon->update($requestData);
 
-        return redirect('admin/coupons')->with('flash_message', 'Coupon updated!');
+        return redirect('admin/coupons')->with('success', 'Coupon updated!');
     }
 
     /**

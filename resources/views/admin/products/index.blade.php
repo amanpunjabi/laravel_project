@@ -107,7 +107,7 @@
         type: 'DELETE',
         data: {
             "id": id,
-            "_token": token,
+            "_token":  token,
         },
         success: function (data) {
            swal("Poof! Product Data has been deleted!", {

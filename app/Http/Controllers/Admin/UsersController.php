@@ -9,6 +9,8 @@ use App\User;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Hash;
+Use Alert;
+
 
 class UsersController extends Controller
 {
@@ -26,11 +28,11 @@ class UsersController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
-                           $button= '<a href="'.url("/admin/users/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
+                           $button= '<div class="btn-group" role="group" aria-label=""><a href="'.url("/admin/users/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
 
                            $button.=  '&nbsp;&nbsp;<a href="'.url("/admin/users/" . $row->id. "/edit").'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i>  </a>';
 
-                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/users' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a>';
+                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/users' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a></div>';
 
                             return $button;
                     })
@@ -76,7 +78,7 @@ class UsersController extends Controller
         
         User::create($requestData);
 
-        return redirect('admin/users')->with('flash_message', 'User added!');
+        return redirect('admin/users')->with('success', 'User added!');
     }
 
     /**
@@ -136,7 +138,7 @@ class UsersController extends Controller
         $user = User::find($id);
         $user->update($requestData);
 
-        return redirect('admin/users')->with('flash_message', 'User updated!');
+        return redirect('admin/users')->with('success', 'User updated!');
     }
 
     /**
@@ -154,7 +156,7 @@ class UsersController extends Controller
             exit;
         }
 
-        // return redirect('admin/users')->with('flash_message', 'User deleted!');
+        // return redirect('admin/users')->with('success', 'User deleted!');
 
     }
 }

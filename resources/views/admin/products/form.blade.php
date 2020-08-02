@@ -18,11 +18,7 @@
     {!! Form::select('brand_id',$brands, null,['class' => 'form-control','placeholder'=>'select']) !!}
     {!! $errors->first('brand_id', '<p class="help-block">:message</p>') !!}
 </div>
-<div class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
-    {!! Form::label('price', 'Price', ['class' => 'control-label']) !!}
-    {!! Form::text('price', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
-    {!! $errors->first('price', '<p class="help-block">:message</p>') !!}
-</div>
+ 
     {{-- <div class="form-group {{ $errors->has('special_price') ? 'has-error' : ''}}">
         {!! Form::label('special_price', 'Special Price', ['class' => 'control-label']) !!}
         {!! Form::text('special_price', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}

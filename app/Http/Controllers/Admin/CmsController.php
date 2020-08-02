@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Cms;
 use DataTables;
-
+Use Alert;
 class CmsController extends Controller
 {
     /**
@@ -97,7 +97,7 @@ class CmsController extends Controller
         $requestData = $request->all();
         $page = Cms::findOrFail($id);
         $page->update($requestData);
-        return redirect('admin/cms')->with('flash_message', 'Page updated!');
+        return redirect('admin/cms')->with('success', 'Page updated!');
     }
 
     /**

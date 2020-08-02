@@ -37,7 +37,11 @@
                             <table class="table" id="contact_list">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>name</th><th>Email</th><th>Subject</th><th>Message</th>
+                                        <th>#</th>
+                                        <th>name</th><th>Email</th>
+                                        <th>Subject</th>
+                                        <th>Message</th>
+                                        <th>My Note</th>
                                         <th>action</th>
                                     </tr>
                                 </thead>
@@ -74,6 +78,7 @@
             {data: 'email', name: 'email'},
             {data: 'subject', name: 'subject'},
             {data: 'message', name: 'message'},
+            {data: 'note_admin', name: 'note_admin'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });

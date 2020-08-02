@@ -136,6 +136,7 @@
 								</p>
 								<p><b>Condition:</b> New</p>
 								<p><b>Brand:</b>{{ $product->brand->name ?? 'N/A' }}</p>
+								<p><b>description:</b>{{ $product->description ?? 'N/A' }}</p>
 								
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							 </div><!--/product-information-->

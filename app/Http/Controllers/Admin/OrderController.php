@@ -12,6 +12,8 @@ use App\User;
 use Illuminate\Http\Request;
 use DataTables; 
 use  Illuminate\Support\Str;
+Use Alert;
+
 
 class OrderController extends Controller
 {
@@ -145,7 +147,7 @@ class OrderController extends Controller
         }
         // Product::create($requestData);
 
-        return redirect('admin/products')->with('flash_message', 'Product added!');
+        return redirect('admin/products')->with('success', 'Product added!');
     }
 
     /**
@@ -221,7 +223,7 @@ class OrderController extends Controller
     {
         Product::destroy($id);
 
-        return redirect('admin/products')->with('flash_message', 'Product deleted!');
+        return redirect('admin/products')->with('success', 'Product deleted!');
     }
 
     public function images($id)

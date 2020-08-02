@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\EmailTemplates;
 use DataTables;
-
+Use Alert;
 class EmailTemplatesController extends Controller
 {
     /**
@@ -96,7 +96,7 @@ class EmailTemplatesController extends Controller
         $requestData = $request->all();
         $email = EmailTemplates::findOrFail($id);
         $email->update($requestData);
-        return redirect('admin/email')->with('flash_message', 'Page updated!');
+        return redirect('admin/email')->with('success', 'Page updated!');
     }
 
     /**

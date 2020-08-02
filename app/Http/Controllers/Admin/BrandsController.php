@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-
+Use Alert;
 use App\Brand;
 use Illuminate\Http\Request;
 use DataTables;
@@ -73,7 +73,7 @@ class BrandsController extends Controller
         // dd($requestData);
         Brand::create($requestData);
 
-        return redirect('admin/brands')->with('flash_message', 'Brand added!');
+        return redirect('admin/brands')->with('success', 'Brand added!');
     }
 
     /**
@@ -124,7 +124,7 @@ class BrandsController extends Controller
         $brand = Brand::findOrFail($id);
         $brand->update($requestData);
 
-        return redirect('admin/brands')->with('flash_message', 'Brand updated!');
+        return redirect('admin/brands')->with('success', 'Brand updated!');
     }
 
     /**

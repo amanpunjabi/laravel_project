@@ -7,7 +7,7 @@ use App\Http\Requests;
 use DataTables;
 use App\Category;
 use Illuminate\Http\Request;
-
+Use Alert;
 class CategoryController extends Controller
 {
     /**
@@ -81,7 +81,7 @@ class CategoryController extends Controller
         
         Category::create($requestData);
 
-        return redirect('admin/category')->with('flash_message', 'Category added!');
+        return redirect('admin/category')->with('success', 'Category added!');
     }
 
     /**
@@ -135,7 +135,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->update($requestData);
 
-        return redirect('admin/category')->with('flash_message', 'Category updated!');
+        return redirect('admin/category')->with('success', 'Category updated!');
     }
 
     /**

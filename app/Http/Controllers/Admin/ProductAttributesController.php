@@ -25,11 +25,11 @@ class ProductAttributesController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
    
-                           $button= '<a href="'.url("/admin/product-attributes/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
+                           $button= '<div class="btn-group" role="group" aria-label=""><a href="'.url("/admin/product-attributes/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
 
                            $button =  '&nbsp;&nbsp;<a href="'.url("/admin/product-attributes/" . $row->id. "/edit").'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i>  </a>';
 
-                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/product-attributes' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a>';
+                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/product-attributes' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a></div>';
 
                             return $button;
                     })
@@ -66,7 +66,7 @@ class ProductAttributesController extends Controller
         
         ProductAttribute::create($requestData);
 
-        return redirect('admin/product-attributes')->with('flash_message', 'ProductAttribute added!');
+        return redirect('admin/product-attributes')->with('success', 'ProductAttribute added!');
     }
 
     /**
@@ -115,7 +115,7 @@ class ProductAttributesController extends Controller
         $productattribute = ProductAttribute::findOrFail($id);
         $productattribute->update($requestData);
 
-        return redirect('admin/product-attributes')->with('flash_message', 'ProductAttribute updated!');
+        return redirect('admin/product-attributes')->with('success', 'ProductAttribute updated!');
     }
 
     /**

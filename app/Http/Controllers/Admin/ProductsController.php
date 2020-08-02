@@ -14,6 +14,8 @@ use App\ProductAttribute;
 use App\Rules\Everynullelement;
 use App\ProductVariation;
 use Illuminate\Support\Arr; 
+Use Alert;
+
 class ProductsController extends Controller
 {
     /**
@@ -47,9 +49,9 @@ class ProductsController extends Controller
    
                            // $button= '<a href="'.url("/admin/users/" .$row->id).'" title="View User"  class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> </a>';
 
-                           $button =  '&nbsp;&nbsp;<a href="'.url("/admin/products/" . $row->id. "/edit").'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i>  </a>';
+                           $button =  '<div class="btn-group" role="group" aria-label=""><a href="'.url("/admin/products/" . $row->id. "/edit").'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i>  </a>';
 
-                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/products' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a>';
+                           $button.=  '&nbsp;&nbsp;<a href="'.url('/admin/products' . '/' . $row->id).'" title="Edit User" class="btn btn-primary btn-sm" onclick="return show_warning(this);" id='.$row->id.'><i class="fa fa-trash" aria-hidden="true"></i>  </a></div>';
                             return $button;
                     })
                     ->rawColumns(['action'])
@@ -83,8 +85,7 @@ class ProductsController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required',
-			'code' => 'required',
-			'price' => 'required|numeric',
+			'code' => 'required', 
 			'description' => 'required'
 		],['name.required'=>'Product name required.']);
 
@@ -98,7 +99,7 @@ class ProductsController extends Controller
         }
         // Product::create($requestData);
 
-        return redirect('admin/products')->with('flash_message', 'Product added!');
+        return redirect('admin/products')->with('success', 'Product added!');
     }
 
     /**
@@ -146,7 +147,6 @@ class ProductsController extends Controller
         $this->validate($request, [
 			'name' => 'required',
 			'code' => 'required',
-			'price' => 'required|numeric',
 			'description' => 'required'
 		]);
         $requestData = $request->all();
@@ -164,7 +164,7 @@ class ProductsController extends Controller
                 $product->categories()->sync($request['category']);
         }
 
-        return redirect('admin/products')->with('flash_message', 'Product updated!');
+        return redirect('admin/products')->with('success', 'Product updated!');
     }
 
     /**
@@ -176,9 +176,12 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        Product::destroy($id);
+        if(Product::destroy($id))
+        {
+            echo  true;
+            exit;
+        }
 
-        return redirect('admin/products')->with('flash_message', 'Product deleted!');
     }
 
     public function images($id)

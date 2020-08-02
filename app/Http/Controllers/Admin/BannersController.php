@@ -7,7 +7,7 @@ use App\Http\Requests;
 use DataTables;
 use App\Banner;
 use Illuminate\Http\Request;
-
+Use Alert;
 class BannersController extends Controller
 {
     /**
@@ -87,7 +87,7 @@ class BannersController extends Controller
 
         Banner::create($requestData);
 
-        return redirect('admin/banners')->with('flash_message', 'Banner added!');
+        return redirect('admin/banners')->with('success', 'Banner added!');
     }
 
     /**
@@ -143,7 +143,7 @@ class BannersController extends Controller
         $banner = Banner::findOrFail($id);
         $banner->update($requestData);
 
-        return redirect('admin/banners')->with('flash_message', 'Banner updated!');
+        return redirect('admin/banners')->with('success', 'Banner updated!');
     }
 
     /**

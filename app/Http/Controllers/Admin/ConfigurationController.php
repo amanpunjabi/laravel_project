@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Configuration;
-
+Use Alert;
 class ConfigurationController extends Controller
 {
     /**
@@ -44,6 +44,6 @@ class ConfigurationController extends Controller
         $configuration->update(array('value' => $value ));
        
         }
-        return redirect()->back();
+        return redirect()->back()->with('success','Values updated.');
     }
 }

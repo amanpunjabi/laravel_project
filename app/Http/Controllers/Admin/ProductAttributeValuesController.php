@@ -106,7 +106,7 @@ class ProductAttributeValuesController extends Controller
         $productattributevalue = ProductAttributeValue::findOrFail($id);
         $productattributevalue->update($requestData);
 
-        return redirect('admin/product-attribute-values')->with('flash_message', 'ProductAttributeValue updated!');
+        return redirect('admin/product-attribute-values')->with('success', 'ProductAttributeValue updated!');
     }
 
     /**

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
    <link rel="icon" sizes="180x180" href="{{asset('frontend/android-chrome-192x192.png')}}">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Admin | E-Shopper</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -30,21 +30,22 @@
   <link href="{{ asset("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700") }}"  rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
   <link rel="stylesheet" type="text/css" href="{{ asset('select2-4.0.13/dist/css/select2.min.css') }}">
-  <script src={{ asset("sweetalert/sweetalert.min.js") }}></script>
+  
 
   {{-- custom css --}}
    <link rel="stylesheet" href={{ asset("css/custom.css") }}>
-
+   
   @stack('css')
   
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
    @if (Session::has('success'))
-    <?php Alert::success('',session('success')); ?>
+   {{-- {{ dd(session('success')) }} --}}
+    <?php Alert::toast(session('success'),'success'); ?>
    @endif
    @if (Session::has('failed'))
-    <?php Alert::error('',session('failed')); ?>
+    <?php Alert::toast(session('failed'),'warning'); ?>
    @endif
 <div class="wrapper">
  
@@ -129,7 +130,9 @@
 
 @stack('datatable-js');
 <script type="text/javascript" src="{{ asset('select2-4.0.13/dist/js/select2.min.js') }}"></script>
-{{-- @include('sweetalert::alert') --}}
+@include('sweetalert::alert')
+ {{-- @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"]) --}}
+ <script src={{ asset("sweetalert/sweetalert.min.js") }}></script>
 @stack('js');
 </body>
 </html>
