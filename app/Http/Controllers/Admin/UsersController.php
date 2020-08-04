@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Hash;
 Use Alert;
-
-
 class UsersController extends Controller
 {
+    
+     
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +22,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         // dd();
+
         if ($request->ajax()) {
             $data = User::latest()->where('id', '<>', auth()->user()->id)->get();
             return Datatables::of($data)

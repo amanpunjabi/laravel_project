@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->boolean('recommended')->default(0);
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->timestamps();
+            $table->softDeletes();
             });
     }
 

@@ -11,6 +11,10 @@ if(count($product->variation)==0){
 	<div class="product-image-wrapper">
 		<div class="single-products">
 			<div class="productinfo text-center">
+				<?php 
+				$price = getMinMax($product->id) ?? $product->price;
+				?>
+
 				{{-- {{ dd($product->images[0]->image)}} --}}
 				@if(count($product->images) == 0 )
 
@@ -20,7 +24,7 @@ if(count($product->variation)==0){
 				@endif
 				 
 				
-				<h2>${{ $product->price}} </h2>
+				<h2>${{ $price}} </h2>
 				<p>{{ $product->name}} </p>
 				<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">
 				<i class="fa fa-eye"></i>View

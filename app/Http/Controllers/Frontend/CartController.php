@@ -18,7 +18,7 @@ class CartController extends Controller
     {
         // return view('welcome');
   
-        $featured_products =  Product::whereHas('variation')->paginate(8);
+        $featured_products =  Product::whereHas('variation')->where('featured',true)->paginate(8);
         // whereHas('variation')->
         // dd($featured_products); 
         $recommended_products =  Product::whereHas('variation')->get()->where('recommended',true);

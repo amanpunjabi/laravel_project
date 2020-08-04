@@ -133,7 +133,7 @@ function getMinMax($id){
   { 
     if($data['max'] == $data['min'])
     {
-      return $data['max'];
+      return "$".$data['max'];
     }
     else
     {

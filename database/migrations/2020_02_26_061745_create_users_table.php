@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('facebook_id')->nullable();
             $table->string('status')->nullable();
             $table->rememberToken();
-            $table->timestamps();
-
+            $table->timestamps();   
+            $table->softDeletes();
 
       });                 
     }

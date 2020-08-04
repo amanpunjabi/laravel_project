@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 
-
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+ 
     {{-- <link href='{{ asset("frontend/css/font-awesome.min.css")}}' rel="stylesheet"> --}}
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='{{ asset("frontend/css/prettyPhoto.css") }}' rel="stylesheet">
@@ -389,6 +389,7 @@
     <script src='{{asset("frontend/js/main.js") }}'></script>
       {{-- @include('sweetalert::alert') --}}
       @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+      
     @stack('js')
 </body>
 </html>

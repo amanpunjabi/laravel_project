@@ -8,8 +8,8 @@
 					  <li class="active">Orders</li>
 					</ol>
 				</div>
-				<div class="table-responsive cart_info">
-					<table class="table table-condensed">
+				<div class="table-responsive ">
+					<table class="table  cart_info" id="order_list">
 						<thead>
 							<tr class="cart_menu">
 								<td>#</td>
@@ -56,7 +56,18 @@
 				</div>
 			</div>
 		</section> <!--/#cart_items-->
-		 
+@endsection
+@push('js')
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
 
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js
+"></script>
 
-	@endsection
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js
+"></script>
+ <script type="text/javascript">
+   $(document).ready(function(){
+   	$('#order_list').DataTable();
+    });   
+</script>
+@endpush

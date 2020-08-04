@@ -18,7 +18,8 @@ class CreateCouponsTable extends Migration
             $table->enum('type', ["fixed","percent"]);
             $table->decimal('value')->nullable();
             $table->dateTime('expire_on')->nullable();
-            $table->timestamps();            
+            $table->timestamps(); 
+            $table->softDeletes();           
             });
     }
 

@@ -30,7 +30,7 @@ Route::get('/login',function()
 	return view('frontend.login');
 })->name('login');
 
-Route::namespace('Admin')->prefix('admin')->middleware('auth')->name('admin.')->group(function(){
+Route::namespace('Admin')->prefix('admin')->middleware(['auth','adminrole'])->name('admin.')->group(function(){
 	Route::resource('/users','UsersController');
 	// Route::delete('users/{id}', 'UserController@destroy')->name('users.destroy');
 	//Route::delete('/users/{id}','UsersController@destroy');

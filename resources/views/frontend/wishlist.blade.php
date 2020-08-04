@@ -17,7 +17,10 @@
 											<img src="{{ asset('storage/'.$image->image) }}" alt="" />
 											@break
 											@endforeach
-											<h2>${{ $product->price }}</h2>
+											<?php 
+											$price = getMinMax($product->id) ?? $product->price;
+											?>
+											<h2>${{ $price }}</h2>
 											<p>{{ $product->name }}</p>
 											<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">
 												<i class="fa fa-eye"></i>View
