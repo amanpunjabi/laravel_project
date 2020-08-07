@@ -20,7 +20,7 @@
 											<?php 
 											$price = getMinMax($product->id) ?? $product->price;
 											?>
-											<h2>${{ $price }}</h2>
+											<h2>{{ $price }}</h2>
 											<p>{{ $product->name }}</p>
 											<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">
 												<i class="fa fa-eye"></i>View
@@ -28,7 +28,7 @@
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												<h2>${{ $product->price }}</h2>
+												<h2>{{getMinMax($product->id)}}</h2>
 												<p>{{ $product->name }}</p>
 												 
 												<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">

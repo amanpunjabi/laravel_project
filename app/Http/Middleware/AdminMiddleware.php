@@ -19,11 +19,11 @@ class AdminMiddleware
 	{
 		if(Auth::user()->hasAnyRole(['admin','superadmin']))
 		{
-		return $next($request);
+			return $next($request);
 		}
 		else
 		{
-		return redirect('/');
+			return redirect('/');
 		}
 	}
 }
