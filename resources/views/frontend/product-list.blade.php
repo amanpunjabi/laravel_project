@@ -33,7 +33,7 @@
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												 <h2>${{ $product->price }}</h2>
+												 <h2>{{ $price = getMinMax($product->id) ?? $product->price}}</h2>
 												<p>{{ $product->name }}</p>
 												 
 												<a href="{{ route('product_detail',$product->id)}}" class="btn btn-default add-to-cart">

@@ -31,7 +31,7 @@
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												<a href="{{ route('product_detail',$product->id)}}"><h2>${{ $product->price }}</h2>
+												<a href="{{ route('product_detail',$product->id)}}"><h2>{{ $price = getMinMax($product->id) ?? $product->price}}</h2>
 												<p>{{ $product->name }}</p>
 												</a>
 												{{-- add to cart form 		 --}}
